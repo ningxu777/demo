@@ -2,12 +2,12 @@ package com.neil.demo.staticproxy;
 
 /**
  * 定义一个账户接口
- * @author gooooooo
  *
+ * @author gooooooo
  */
 public interface Count {
-	
-	public void queryCount();
-	
-	public void updateCount();
+
+    public void queryCount();
+
+    public void updateCount();
 }

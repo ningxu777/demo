@@ -36,7 +36,7 @@ public class JackSon {
 
         //json转为java类
         String jsonStr = "{\"name\":\"小民\",\"birthday\":844099200000,\"email\":\"xiaomin@sina.com\"}";
-        User user1 = mapper.readValue(jsonStr,User.class);
+        User user1 = mapper.readValue(jsonStr, User.class);
         System.out.println(user1.getBirthday());
     }
 }

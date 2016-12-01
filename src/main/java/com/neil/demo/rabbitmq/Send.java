@@ -17,7 +17,7 @@ public class Send {
     //队列名称
     private final static String QUEUE_NAME = "hello";
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         //创建连接到rabbitmq
         ConnectionFactory factory = new ConnectionFactory();
         //设置rabbitmq所在主机IP
@@ -28,11 +28,11 @@ public class Send {
             connection = factory.newConnection();
             Channel channel = connection.createChannel();
             //指定一个队列
-            channel.queueDeclare(QUEUE_NAME,false,false,false,null);
+            channel.queueDeclare(QUEUE_NAME, false, false, false, null);
             //要发送的消息
             String message = "这里是要发送的消息";
             //向队列中发送消息
-            channel.basicPublish("",QUEUE_NAME,null,message.getBytes());
+            channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
             //关闭channel和连接
             channel.close();
             connection.close();

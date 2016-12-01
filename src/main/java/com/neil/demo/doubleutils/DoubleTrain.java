@@ -7,23 +7,23 @@ import java.text.DecimalFormat;
  */
 public class DoubleTrain {
 
-    public static Double setDoubleScale(double value, int scale,Integer beishu) {
+    public static Double setDoubleScale(double value, int scale, Integer beishu) {
         //BigDecimal decimal = new BigDecimal(value);
         //return decimal.setScale(scale, BigDecimal.ROUND_HALF_UP).doubleValue();
         StringBuffer a = new StringBuffer("0.");
-        for(int i = 0; i < scale; i++){
+        for (int i = 0; i < scale; i++) {
             a.append("0");
         }
         DecimalFormat df = new DecimalFormat(a.toString());
         Double rel = value;
-        if(beishu != null && beishu > 1){
-            rel = value*beishu;
+        if (beishu != null && beishu > 1) {
+            rel = value * beishu;
         }
         String relsult = df.format(rel);
         return Double.valueOf(relsult);
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
 //        double a = 70;
 //        double b = 106;
 //        Double c = setDoubleScale(a/b,2,null);

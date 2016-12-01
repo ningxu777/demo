@@ -23,11 +23,11 @@ public class NewTask {
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
         //声明队列
-        channel.queueDeclare(QUEUE_NAME,false,false,false,null);
+        channel.queueDeclare(QUEUE_NAME, false, false, false, null);
         //发送10条消息
-        for(int i = 0; i<10; i++){
-            String message = "消息"+i;
-            channel.basicPublish("",QUEUE_NAME,null,message.getBytes());
+        for (int i = 0; i < 10; i++) {
+            String message = "消息" + i;
+            channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
         }
         channel.close();
         connection.close();

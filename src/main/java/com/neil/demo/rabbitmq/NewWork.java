@@ -15,7 +15,7 @@ public class NewWork {
 
     private final static String QUEUE_NAME = "workqueue";
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
         //区分不同工作进程的输出
         int hashCode = NewWork.class.hashCode();
         //创建连接和channel
@@ -23,14 +23,14 @@ public class NewWork {
         factory.setHost("localhost");
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
-        channel.queueDeclare(QUEUE_NAME,false,false,false,null);
+        channel.queueDeclare(QUEUE_NAME, false, false, false, null);
         QueueingConsumer consumer = new QueueingConsumer(channel);
         //指定消费队列
-        channel.basicConsume(QUEUE_NAME,true,consumer);
-        while(true){
+        channel.basicConsume(QUEUE_NAME, true, consumer);
+        while (true) {
             QueueingConsumer.Delivery delivery = consumer.nextDelivery();
             String message = new String(delivery.getBody());
-            System.out.println("消费者-"+hashCode+"收到消息:"+message);
+            System.out.println("消费者-" + hashCode + "收到消息:" + message);
         }
     }
 }

@@ -10,7 +10,7 @@ public class Receive {
 
     private static final String QUEUE_NAME = "hello";
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         //与发送端一样,打开和创建频道
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
@@ -18,15 +18,15 @@ public class Receive {
             Connection connection = factory.newConnection();
             Channel channel = connection.createChannel();
             //声明队列
-            channel.queueDeclare(QUEUE_NAME,false,false,false,null);
+            channel.queueDeclare(QUEUE_NAME, false, false, false, null);
             //创建队列消费者
             QueueingConsumer consumer = new QueueingConsumer(channel);
             //指定消息队列
-            channel.basicConsume(QUEUE_NAME,true,consumer);
-            while(true){
+            channel.basicConsume(QUEUE_NAME, true, consumer);
+            while (true) {
                 QueueingConsumer.Delivery delivery = consumer.nextDelivery();
                 String message = new String(delivery.getBody());
-                System.out.println("消费者收到消息:"+message);
+                System.out.println("消费者收到消息:" + message);
             }
         } catch (Exception e) {
             e.printStackTrace();

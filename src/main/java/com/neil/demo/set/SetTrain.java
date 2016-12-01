@@ -7,7 +7,7 @@ import java.util.Set;
  * Created by Neil on 16/4/21.
  */
 public class SetTrain {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Set<Integer> s1 = new HashSet<Integer>();
         s1.add(1);
         s1.add(2);

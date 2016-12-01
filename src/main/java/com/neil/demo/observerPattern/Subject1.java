@@ -5,17 +5,17 @@ package com.neil.demo.observerPattern;
  */
 public class Subject1 extends Subject {
 
-    public String getState(){
+    public String getState() {
         return subjectState;
     }
 
-    public void setState(String subjectState){
+    public void setState(String subjectState) {
         this.subjectState = subjectState;
         System.out.println("Subject1 is changed.");
         post();
     }
 
-    public void setSubjectToObserver(Observer observer){
+    public void setSubjectToObserver(Observer observer) {
         observer.setSubject(this);
     }
 

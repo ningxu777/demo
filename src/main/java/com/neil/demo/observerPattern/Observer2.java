@@ -8,6 +8,6 @@ public class Observer2 extends Observer {
     @Override
     public void update() {
         String subjectState = subject.getState();
-            System.out.println("Observer2 is updating... becuase of "+subjectState+" `s change");
+        System.out.println("Observer2 is updating... becuase of " + subjectState + " `s change");
     }
 }

@@ -8,14 +8,15 @@ package com.neil.demo.singletonPattern;
  */
 public class LazySingleton {
 
-    private LazySingleton(){}
+    private LazySingleton() {
+    }
 
     private static volatile LazySingleton instance = null;
 
     public static LazySingleton getInstance() {
-        if(instance == null){
-            synchronized(LazySingleton.class){
-                if(instance == null){
+        if (instance == null) {
+            synchronized (LazySingleton.class) {
+                if (instance == null) {
                     instance = new LazySingleton();
                 }
             }

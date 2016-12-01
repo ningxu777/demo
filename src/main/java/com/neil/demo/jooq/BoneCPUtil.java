@@ -10,7 +10,8 @@ import java.sql.SQLException;
 
 /**
  * Created by Neil on 16/4/8.
- * @Description BoneCP连接池工具类,管理数据库连接
+ *
+ * @Description BoneCP连接池工具类, 管理数据库连接
  * @Date 16/4/8
  */
 public class BoneCPUtil {
@@ -33,7 +34,7 @@ public class BoneCPUtil {
     }
 
     //获取连接池
-    public static BoneCP getConnectionPool(){
+    public static BoneCP getConnectionPool() {
         try {
             connectionPool = new BoneCP(config);
         } catch (SQLException e) {
@@ -41,10 +42,11 @@ public class BoneCPUtil {
         }
         return connectionPool;
     }
+
     //获取连接
-    public static Connection getConnection(BoneCP connectionPool){
+    public static Connection getConnection(BoneCP connectionPool) {
         Connection connection = null;
-        if(connectionPool != null){
+        if (connectionPool != null) {
             try {
                 connection = connectionPool.getConnection();
             } catch (SQLException e) {
@@ -53,13 +55,15 @@ public class BoneCPUtil {
         }
         return connection;
     }
+
     //关闭连接池
-    public static void closeConnectionPool(BoneCP connectionPool){
+    public static void closeConnectionPool(BoneCP connectionPool) {
         connectionPool.close();
     }
+
     //关闭连接
-    public static void closeConnection(Connection connection){
-        if(connection != null){
+    public static void closeConnection(Connection connection) {
+        if (connection != null) {
             try {
                 connection.close();
             } catch (SQLException e) {
@@ -69,7 +73,7 @@ public class BoneCPUtil {
     }
 
     //??????
-    public static DSLContext getContext(Connection connection){
+    public static DSLContext getContext(Connection connection) {
         return DSL.using(connection);
     }
 }

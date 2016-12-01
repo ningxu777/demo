@@ -5,7 +5,7 @@ package com.neil.demo.observerPattern;
  * 观察者模式demo
  */
 public class MainClass {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Subject subject1 = new Subject1();
         subject1.register(new Observer1());
         subject1.register(new Observer2());

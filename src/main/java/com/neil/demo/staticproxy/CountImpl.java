@@ -1,17 +1,18 @@
 package com.neil.demo.staticproxy;
+
 /**
  * 委托类(包含业务逻辑)
  * Count接口的实现类
- * @author gooooooo
  *
+ * @author gooooooo
  */
-public class CountImpl implements Count{
-	
-	public void queryCount(){
-		System.out.println("查询账户！");
-	}
+public class CountImpl implements Count {
 
-	public void updateCount() {
-		System.out.println("修改账户！");
-	}
+    public void queryCount() {
+        System.out.println("查询账户！");
+    }
+
+    public void updateCount() {
+        System.out.println("修改账户！");
+    }
 }

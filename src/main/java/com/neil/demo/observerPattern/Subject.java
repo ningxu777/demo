@@ -19,9 +19,10 @@ public abstract class Subject {
 
     /**
      * 注册观察者
+     *
      * @param observer
      */
-    public void register(Observer observer){
+    public void register(Observer observer) {
         observerList.add(observer);
         this.setSubjectToObserver(observer);
     }
@@ -30,9 +31,10 @@ public abstract class Subject {
 
     /**
      * 注销观察者
+     *
      * @param observer
      */
-    public void unregister(Observer observer){
+    public void unregister(Observer observer) {
         observerList.remove(observer);
     }
 

@@ -9,7 +9,7 @@ import java.util.List;
  * Created by Neil on 16/5/5.
  */
 public class ListTrain {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         //getBJ();
         //orderList();
         //setByIndex();
@@ -17,28 +17,28 @@ public class ListTrain {
     }
 
     //指定index设置值
-    public static void setByIndex(){
+    public static void setByIndex() {
         List<Integer> l = new ArrayList<Integer>();
         l.add(1);
         l.add(2);
         l.add(3);
         l.add(4);
-        for (int i = 0;i<4;i++){
+        for (int i = 0; i < 4; i++) {
             System.out.println(l.get(0));
             l.remove(0);
         }
     }
 
     //交集&并集
-    public static void getBJ(){
+    public static void getBJ() {
         List<Integer> l1 = new ArrayList<Integer>();
         l1.add(1);
         l1.add(2);
         l1.add(3);
         l1.add(4);
         List<Integer> l = new ArrayList<Integer>();
-        for(Integer item : l1){
-            if(item == 2 || item ==7){
+        for (Integer item : l1) {
+            if (item == 2 || item == 7) {
                 l.add(item);
             }
         }
@@ -48,7 +48,7 @@ public class ListTrain {
     }
 
     //排序
-    public static void orderList(){
+    public static void orderList() {
         //普通排序
         List<Integer> l1 = new ArrayList<Integer>();
         l1.add(9);
@@ -59,11 +59,11 @@ public class ListTrain {
         System.out.println(l1);
         //重载Compares方法排序
         List<Person> l2 = new ArrayList<Person>();
-        for(int i = 0; i < 10 ; i++){
+        for (int i = 0; i < 10; i++) {
             Person p = new Person();
-            int reandom = (int)(1+Math.random()*10);
+            int reandom = (int) (1 + Math.random() * 10);
             p.setId(reandom);
-            p.setName("ren"+reandom);
+            p.setName("ren" + reandom);
             l2.add(p);
             System.out.println(p.getName());
         }
@@ -72,13 +72,13 @@ public class ListTrain {
                 return o1.getId().compareTo(o2.getId());
             }
         });
-        for(Person item:l2){
+        for (Person item : l2) {
             System.out.println(item.getName());
         }
     }
 
     //复制list
-    public static void copyList(){
+    public static void copyList() {
         List<Integer> l = new ArrayList<Integer>();
         l.add(1);
         l.add(2);
@@ -90,7 +90,7 @@ public class ListTrain {
         System.out.println(lCopy);
     }
 
-    static class Person{
+    static class Person {
         Integer id;
         String name;
         int age;

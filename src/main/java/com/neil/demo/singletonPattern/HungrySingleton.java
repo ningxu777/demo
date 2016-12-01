@@ -7,12 +7,13 @@ package com.neil.demo.singletonPattern;
 public class HungrySingleton {
 
     //私有化构造方法,防止调用构造方法来创建实例
-    private HungrySingleton(){}
+    private HungrySingleton() {
+    }
 
     private static HungrySingleton instance = new HungrySingleton();
 
-    public static HungrySingleton getInstance(){
-        return  instance;
+    public static HungrySingleton getInstance() {
+        return instance;
     }
 
 }

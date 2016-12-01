@@ -9,11 +9,12 @@ import java.sql.Statement;
 
 /**
  * Created by Neil on 16/4/8.
+ *
  * @description 练习使用BoneCP数据库连接池
  */
 public class BoneCPTrain {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         com.jolbox.bonecp.BoneCP connectionPool = null;
         Connection connection = null;
         try {
@@ -32,12 +33,12 @@ public class BoneCPTrain {
             //从连接池获取一个数据库连接
             connection = connectionPool.getConnection();
 
-            if(connection != null){
+            if (connection != null) {
                 System.out.println("Connection successful!");
                 Statement stmt = connection.createStatement();
                 ResultSet result = stmt.executeQuery("select * FROM album");
-                while(result.next()){
-                    System.out.println(result.getInt("id")+"---"+result.getString("name"));
+                while (result.next()) {
+                    System.out.println(result.getInt("id") + "---" + result.getString("name"));
                 }
             }
             //关闭连接池
@@ -45,7 +46,7 @@ public class BoneCPTrain {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if(connection != null){
+            if (connection != null) {
                 try {
                     connection.close();
                 } catch (SQLException e) {

@@ -13,7 +13,7 @@ public class User {
     Integer id;
     String name;
     @JsonIgnore //此注解用于属性上，作用是进行JSON操作时忽略该属性
-    Date birthday;
+            Date birthday;
     String email;
 
     public Integer getId() {
