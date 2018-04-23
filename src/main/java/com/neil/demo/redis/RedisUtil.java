@@ -41,11 +41,15 @@ public class RedisUtil implements IRedis{
     }
 
     @Override
-    public void set(String key, String value) {
+    public void set(String key, String value, Integer seconds) {
 
         Jedis jedis = getJedis();
         try {
-            jedis.set(key, value);
+            if(seconds == null){
+                jedis.set(key, value);
+            }else{
+                jedis.setex(key, seconds,value);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -69,8 +73,18 @@ public class RedisUtil implements IRedis{
         return value;
     }
 
-
-
+    @Override
+    public void delete(String key) {
+        Jedis jedis = getJedis();
+        try {
+            jedis.del(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            //返还到连接池
+            jedis.close();
+        }
+    }
 
 
 }

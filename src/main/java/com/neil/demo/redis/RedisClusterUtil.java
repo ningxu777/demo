@@ -5,6 +5,7 @@ import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisPoolConfig;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,22 +29,67 @@ public class RedisClusterUtil implements IRedis{
         poolConfig.setMaxWaitMillis(1000); //等1分钟
 
         Set<HostAndPort> nodes = new HashSet<HostAndPort>();
-        nodes.add(new HostAndPort("127.0.0.1",6379));
-        nodes.add(new HostAndPort("127.0.0.1",6380));
-        nodes.add(new HostAndPort("127.0.0.1",6381));
-
+        String[] redis_clusterArr = redis_cluster.split("");
+        for(String item:redis_clusterArr){
+            String[] itemArr = item.split(",");
+            nodes.add(new HostAndPort(itemArr[0],Integer.valueOf(itemArr[1])));
+        }
         JedisCluster cluster = new JedisCluster(nodes, poolConfig);
 
         return cluster;
     }
 
     @Override
-    public void set(String key, String value) {
-
+    public void set(String key, String value,Integer seconds) {
+        JedisCluster cluster = getJedisCluster();
+        try{
+            if(seconds == null){
+                cluster.set(key,value);
+            }else{
+                cluster.setex(key,seconds,value);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            try {
+                cluster.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
     public String get(String key) {
-        return null;
+        String value = null;
+        JedisCluster cluster = getJedisCluster();
+        try {
+            value = cluster.get(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                cluster.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return value;
+    }
+
+    @Override
+    public void delete(String key) {
+        JedisCluster cluster = getJedisCluster();
+        try {
+            cluster.del(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                cluster.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

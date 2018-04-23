@@ -1,5 +1,6 @@
 package com.neil.demo.redis;
 
+
 import com.neil.demo.properties.MyProperties;
 
 /**
@@ -7,12 +8,14 @@ import com.neil.demo.properties.MyProperties;
  */
 public interface IRedis {
 
-    public static final String redis_master = MyProperties.getByKey("redis_master");
-    public static final String redis_slave = MyProperties.getByKey("redis_slave");
-    public static final String redis_sentinel_master = MyProperties.getByKey("redis_sentinel_master");
-    public static final String redis_sentinel_slave = MyProperties.getByKey("redis_sentinel_slave");
+    String redis_master = MyProperties.getByKey("redis_master");
+    String redis_slave = MyProperties.getByKey("redis_slave");
+    String redis_sentinel = MyProperties.getByKey("redis_sentinel");
+    String redis_cluster = MyProperties.getByKey("redis_cluster");
 
-    void set(String key, String value);
+    void set(String key, String value, Integer expire);
 
     String get(String key);
+
+    void delete(String key);
 }

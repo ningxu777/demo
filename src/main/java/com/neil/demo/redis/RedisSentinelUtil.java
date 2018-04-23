@@ -14,14 +14,14 @@ import java.util.Set;
 @Component
 public class RedisSentinelUtil implements IRedis {
 
-
-
     public static JedisSentinelPool pool = null;
 
     static {
         Set<String> sentinelAddrs = new HashSet<String>();
-        sentinelAddrs.add(redis_sentinel_master);
-        sentinelAddrs.add(redis_sentinel_slave);
+        String[] redis_sentinelArr = redis_sentinel.split(",");
+        for(String item:redis_sentinelArr){
+            sentinelAddrs.add(item);
+        }
         pool = new JedisSentinelPool("mymaster",sentinelAddrs);
     }
 
@@ -37,10 +37,14 @@ public class RedisSentinelUtil implements IRedis {
 
 
     @Override
-    public void set(String key, String value) {
+    public void set(String key, String value,Integer seconds) {
         Jedis jedis = getJedis();
         try {
-            jedis.set(key, value);
+            if(seconds == null){
+                jedis.set(key, value);
+            }else{
+                jedis.setex(key, seconds, value);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -62,5 +66,19 @@ public class RedisSentinelUtil implements IRedis {
             jedis.close();
         }
         return value;
+    }
+
+    @Override
+    public void delete(String key) {
+        String value = null;
+        Jedis jedis = getJedis();
+        try {
+            jedis.del(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            //返还到连接池
+            jedis.close();
+        }
     }
 }
