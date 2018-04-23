@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<beans xmlns="http://www.springframework.org/schema/beans"-->
+       <!--xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+       <!--xmlns:context="http://www.springframework.org/schema/context"-->
+       <!--xmlns:mvc="http://www.springframework.org/schema/mvc"-->
+       <!--xmlns:p="http://www.springframework.org/schema/p"-->
+       <!--xmlns:aop="http://www.springframework.org/schema/aop"-->
+       <!--xmlns:util="http://www.springframework.org/schema/util"-->
+       <!--xsi:schemaLocation="http://www.springframework.org/schema/beans-->
+		<!--http://www.springframework.org/schema/beans/spring-beans-4.0.xsd-->
+		<!--http://www.springframework.org/schema/context-->
+		<!--http://www.springframework.org/schema/context/spring-context-4.0.xsd-->
+		<!--http://www.springframework.org/schema/mvc-->
+		<!--http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd-->
+		<!--http://www.springframework.org/schema/aop-->
+		<!--http://www.springframework.org/schema/aop/spring-aop-4.0.xsd-->
+		<!--http://www.springframework.org/schema/util-->
+        <!--http://www.springframework.org/schema/util/spring-util-4.0.xsd-->
+        <!--http://www.springframework.org/schema/data/mongo"-->
+       <!--default-autowire="no" default-lazy-init="true">-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:p="http://www.springframework.org/schema/p"
+           xmlns:mvc="http://www.springframework.org/schema/mvc"
+           xmlns:context="http://www.springframework.org/schema/context"
+           xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+    <!-- 启用spring mvc 注解 -->
+    <context:annotation-config/>
+
+    <!-- 设置使用注解的类所在的jar包 -->
+    <context:component-scan base-package="com.simazb.taojin.**"></context:component-scan>
+
+    <!-- InternalResourceViewResolver -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"></property>
+        <property name="prefix" value="/views/"></property>
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+
+    <!-- 完成请求和注解POJO的映射 -->
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>
+
+    <!-- 
+    1、可以配置多种环境，如果你想连接多个数据库，你需要创建多个dataSourse、SqlSessionFactory、MapperScannerConfigurer，分别取不同的名字（即id不同）即可 
+    2、第一种配置（还有别的配置方法）包含这三个项目dataSourse、SqlSessionFactory、MapperScannerConfigurer，这种配置：
+    	a、mybatis-config.xml中需要加入定义SQL映射语句的*mapper.xml的引用
+    	b、dao必须定义为接口，里面的方法名与*mapper.xml中的对应
+    	c、dataSource的连接池可选，一般有dbcp（org.apache.commons.dbcp.BasicDataSource）、c3p0（com.mchange.v2.c3p0.ComboPooledDataSource）
+    	d、不同的连接池dataSource配置的property name不同，用时百度其对应配置
+    -->
+    <!-- 数据源配置,使用dbcp连接池 -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+
+        <!-- Connection Pooling Info -->
+        <property name="initialSize" value="${cpool.initialSize}"/>
+        <property name="maxActive" value="${cpool.maxActive}"/>
+        <property name="maxIdle" value="${cpool.maxIdle}"/>
+        <property name="maxWait" value="${cpool.maxWait}"/>
+        <property name="poolPreparedStatements" value="${cpool.poolPreparedStatements}"/>
+        <property name="defaultAutoCommit" value="${cpool.defaultAutoCommit}"/>
+
+        <!-- 运行判断连接超时任务的时间间隔，单位为毫秒，默认为-1，即不执行任务。 -->
+        <property name="timeBetweenEvictionRunsMillis" value="${cpool.timeBetweenEvictionRunsMillis}"/>
+        <!-- 连接的超时时间，默认为半小时。 -->
+        <property name="minEvictableIdleTimeMillis" value="${cpool.minEvictableIdleTimeMillis}"/>
+    </bean>
+    <!-- Mybatis sqlSessionFactory  -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="configLocation" value="classpath:mybatis-config.xml"></property>
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+    <!--自动扫描dao接口并实例化-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <property name="basePackage" value="com.simazb.taojin"/>
+    </bean>
+
+    <!--&lt;!&ndash;开启文件上传控件&ndash;&gt;-->
+    <!--<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">-->
+    <!--&lt;!&ndash;<bean id="multipartResolver" class="com.simazb.taojin.www.util.CustomMultipartResolver">&ndash;&gt;-->
+        <!--<property name="defaultEncoding" value="UTF-8" />-->
+        <!--<property name="maxUploadSize" value="2147483648" /> &lt;!&ndash; 2G &ndash;&gt;-->
+    <!--</bean>-->
+
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 上传文件大小上限，单位为字节（10MB） -->
+        <property name="maxUploadSize">
+            <value>10485760</value>
+        </property>
+        <!-- 请求的编码格式，必须和jSP的pageEncoding属性一致，以便正确读取表单的内容，默认为ISO-8859-1 -->
+        <property name="defaultEncoding">
+            <value>UTF-8</value>
+        </property>
+    </bean>
+
+    <!--&lt;!&ndash; 配置文件上传，如果没有使用文件上传可以不用配置，当然如果不配，那么配置文件中也不必引入上传组件包 &ndash;&gt;-->
+    <!--<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">-->
+        <!--&lt;!&ndash; 默认编码 &ndash;&gt;-->
+        <!--<property name="defaultEncoding" value="utf-8" />-->
+        <!--&lt;!&ndash; 文件大小最大值 &ndash;&gt;-->
+        <!--<property name="maxUploadSize" value="10485760000" />-->
+        <!--&lt;!&ndash; 内存中的最大值 &ndash;&gt;-->
+        <!--<property name="maxInMemorySize" value="40960" />-->
+    <!--</bean>-->
+
+    <!-- springmvc返回json值时的乱码解决 -->
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="true">
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg value="UTF-8"/>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+</beans>
+

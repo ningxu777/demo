@@ -38,4 +38,16 @@ public class DateTrain {
         }
         System.out.println(date);
     }
+
+    public static Date getDayBegin(Date date){
+        DateFormat df = new SimpleDateFormat("yy:MM:dd 00:00:00");
+        String dateStr = df.format(date);
+        Date begin = null;
+        try {
+            begin = df.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return begin;
+    }
 }

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/"
+					 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+					 xsi:schemaLocation="http://jakarta.apache.org/log4j/ ">
+	<!-- 输出到控制台 -->
+	<appender name="consoleAppender" class="org.apache.log4j.ConsoleAppender">
+		<!-- layout：输出格式定义 -->
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				   value="%d{yyyy/MM/dd HH:mm:ss,SSS} [日志级别：]%p [异常线程：]%t [类全名：]%c [输出内容：]%m [此处换行]%n"></param>
+		</layout>
+		<!-- 过滤器设置输出级别 -->
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="levelMin" value="debug"></param>
+			<param name="levelMax" value="error"></param>
+			<param name="AcceptOnMatch" value="ture"></param>
+		</filter>
+	</appender>
+	<!-- 输出到文件，根据文件个数、文件大小配置决定输出文件 -->
+	<appender name="myFileAppender" class="org.apache.log4j.RollingFileAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				   value="%d{yyyy/MM/dd HH:mm:ss,SSS} [日志级别：]%p [异常线程：]%t [类全名：]%c [输出内容：]%m [此处换行]%n"></param>
+		</layout>
+		<param name="File" value="${logdir}/default.log"></param>
+		<!-- 设置是否在重新启动服务时，在原有日志的基础添加新日志 -->
+		<param name="Append" value="true"/>
+		<param name="MaxBackupIndex" value="10"></param>
+		<param name="MaxFileSize" value="100M"></param>
+	</appender>
+	-->
+	<!-- 输出到文件，每天一个文件 -->
+	<appender name="myDailyFileAppender" class="org.apache.log4j.DailyRollingFileAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				   value="%d{yyyy/MM/dd HH:mm:ss,SSS} [日志级别：]%p [异常线程：]%t [类全名：]%c [输出内容：]%m [此处换行]%n"></param>
+		</layout>
+		<param name="File" value="${logdir}/default.log"></param>
+		<param name="DatePattern" value="'.'yyyy-MM-dd'.log'"></param>
+	</appender>
+
+	<logger name="myDailyFileLogger" additivity="false">
+		<!-- 日志输出级别 -->
+		<priority value="debug"></priority>
+		<appender-ref ref="myDailyFileAppender"></appender-ref>
+	</logger>
+
+	<root>
+		<priority value="debug"></priority>
+		<appender-ref ref="consoleAppender"></appender-ref>
+		<appender-ref ref="myDailyFileAppender"></appender-ref>
+	</root>
+</log4j:configuration>
