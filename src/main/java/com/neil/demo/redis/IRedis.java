@@ -13,6 +13,8 @@ public interface IRedis {
     String redis_sentinel = MyProperties.getByKey("redis_sentinel");
     String redis_cluster = MyProperties.getByKey("redis_cluster");
 
+    void set(String key, String value);
+
     void set(String key, String value, Integer expire);
 
     String get(String key);

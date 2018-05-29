@@ -2,7 +2,6 @@ package com.neil.demo.mongo;
 
 import com.mongodb.*;
 import com.mongodb.client.MongoDatabase;
-import com.neil.demo.properties.MyProperties;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;

@@ -40,14 +40,26 @@ public class RedisClusterUtil implements IRedis{
     }
 
     @Override
+    public void set(String key, String value) {
+        JedisCluster cluster = getJedisCluster();
+        try{
+            cluster.set(key,value);
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            try {
+                cluster.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
     public void set(String key, String value,Integer seconds) {
         JedisCluster cluster = getJedisCluster();
         try{
-            if(seconds == null){
-                cluster.set(key,value);
-            }else{
-                cluster.setex(key,seconds,value);
-            }
+            cluster.setex(key,seconds,value);
         }catch (Exception e){
             e.printStackTrace();
         }finally {

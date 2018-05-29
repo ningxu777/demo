@@ -30,21 +30,29 @@ public class RedisSentinelUtil implements IRedis {
      * @return
      */
     public Jedis getJedis(){
-        Jedis jedis = null;
-        jedis = RedisSentinelUtil.pool.getResource();
+        Jedis jedis = RedisSentinelUtil.pool.getResource();
         return jedis;
     }
 
 
     @Override
+    public void set(String key, String value) {
+        Jedis jedis = getJedis();
+        try {
+            jedis.set(key, value);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            //返还到连接池
+            jedis.close();
+        }
+    }
+
+    @Override
     public void set(String key, String value,Integer seconds) {
         Jedis jedis = getJedis();
         try {
-            if(seconds == null){
-                jedis.set(key, value);
-            }else{
-                jedis.setex(key, seconds, value);
-            }
+            jedis.setex(key, seconds, value);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
